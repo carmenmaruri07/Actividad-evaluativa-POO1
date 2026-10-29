@@ -1,0 +1,76 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{parskip}
+
+\title{Actividad evaluativa 1\\Centro de monitoreo de accesos}
+\author{Nombre y apellidos: Carmen Maruri Pujadas\\}
+\date{23 de octubre de 2026}
+
+\begin{document}
+\maketitle
+
+\section{Objetivo}
+El objetivo de la actividad es desarrollar en Java un programa que analice
+dos servidores y determine su estado de seguridad a partir de los intentos
+de autenticación. El programa valida los datos, calcula el porcentaje de
+fallos cuando corresponde y compara la prioridad de los dos servidores.
+
+\section{Diseño del programa}
+El programa está organizado en dos clases. La clase \texttt{Servidor}
+contiene los cinco atributos solicitados y los métodos necesarios para
+validar los datos, evaluar el estado, calcular el porcentaje de fallos,
+mostrar el resumen y obtener el nivel de prioridad. La clase \texttt{Main}
+lee los datos con \texttt{Scanner}, crea dos objetos independientes y
+presenta el informe final.
+
+\section{Validación y clasificación}
+Antes de clasificar un servidor se comprueba que el nombre no esté vacío,
+que el origen sea interno o externo, que la criticidad sea si o no, que el
+total de intentos sea mayor que cero y que los fallos estén entre cero y
+el total. Las comparaciones de texto ignoran las mayúsculas y los espacios
+al principio o al final.
+
+Si los datos son válidos, se aplican las reglas en el orden indicado en el
+enunciado: \texttt{BLOQUEADO}, \texttt{ALERTA} y \texttt{NORMAL}. Si los
+datos no son válidos, se muestra \texttt{DATOS INVALIDOS} y el porcentaje
+aparece como \texttt{N/D}. La comparación final no se realiza si alguno
+de los servidores tiene datos inválidos.
+
+\section{Pruebas}
+Se deben ejecutar por separado los casos de prueba del enunciado. Los
+resultados esperados son:
+
+\begin{center}
+\begin{tabular}{|l|l|l|r|r|l|}
+\hline
+Nombre & Origen & Crítico & Total & Fallos & Estado esperado \\
+\hline
+VPN & externo & si & 10 & 3 & BLOQUEADO \\
+WEB & interno & no & 8 & 4 & ALERTA \\
+CORREO & externo & no & 8 & 2 & ALERTA \\
+VPN & interno & si & 12 & 2 & NORMAL \\
+WEB & externo & no & 5 & 5 & BLOQUEADO \\
+WEB & interno & no & 4 & 5 & DATOS INVALIDOS \\
+WEB & interno & no & 0 & 0 & DATOS INVALIDOS \\
+CORREO & local & no & 10 & 2 & DATOS INVALIDOS \\
+WEB & externo & quizás & 10 & 2 & DATOS INVALIDOS \\
+\hline
+\end{tabular}
+\end{center}
+
+También hay que probar entradas con espacios al principio y al final,
+por ejemplo \texttt{ EXTERNO } y \texttt{ SI }, para comprobar que se
+aceptan correctamente.
+
+\section{Conclusión}
+La solución permite revisar dos servidores con las mismas reglas y
+comparar su nivel de riesgo. Separar la validación, la clasificación y
+la presentación en métodos facilita la lectura del código y evita
+calcular porcentajes cuando los datos no son válidos.
+
+\end{document}
