@@ -93,3 +93,16 @@ class Servidor {
             } else {
                 nombreMostrar = nombreMostrar.trim();
             }
+/* 
+Respuestas a las preguntas del ejercicio:
+1. Dos objetos de una misma clase pueden tener valores diferentes
+   porque cada objeto tiene sus propios atributos.
+
+2. Con el Servidor b = a;, las dos variables hacen referencia al mismo
+   objeto. En cambio, con Servidor b = new Servidor(); se crea un
+   objeto nuevo e independiente.
+
+3. Es importante comprobar datosValidos() antes de calcular el
+   porcentaje para que pueda evitarse hacer divisiones con datos incorrectos
+   o con un total de intentos igual a cero.
+*/
