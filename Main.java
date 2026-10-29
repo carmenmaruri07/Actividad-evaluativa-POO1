@@ -29,7 +29,8 @@ class Servidor {
             return false;
         }
 
-        if (intentosFallidos < 0 || intentosFallidos > intentosTotales) {
+        if (intentosFallidos < 0 ||
+            intentosFallidos > intentosTotales) {
             return false;
         }
 
@@ -50,7 +51,8 @@ class Servidor {
              origenNormalizado.equalsIgnoreCase("externo") &&
              intentosFallidos >= 3)) {
             return "BLOQUEADO";
-        } else if (intentosFallidos == 3 || intentosFallidos == 4 ||
+        } else if (intentosFallidos == 3 ||
+                   intentosFallidos == 4 ||
                    (origenNormalizado.equalsIgnoreCase("externo") &&
                     intentosFallidos >= 2)) {
             return "ALERTA";
@@ -59,7 +61,7 @@ class Servidor {
         }
     }
 
-    // A continuación se calcula el porcentaje únicamente cuando los datos son válidos.
+    // Entonces se calcula el porcentaje de intentos fallidos.
     double porcentajeFallos() {
         return (intentosFallidos * 100.0) / intentosTotales;
     }
@@ -79,30 +81,81 @@ class Servidor {
         }
     }
 
-    // Muestra el resumen sin calcular porcentajes para datos inválidos.
+    // Seguidamente se muestra el resumen y evita calcular el porcentaje con datos inválidos.
     void mostrarResumen() {
+        String nombreMostrar = nombre;
+
+        if (nombreMostrar == null || nombreMostrar.trim().isEmpty()) {
+            nombreMostrar = "SIN NOMBRE";
+        } else {
+            nombreMostrar = nombreMostrar.trim();
+        }
+
         if (datosValidos()) {
             System.out.printf("%s | %d/%d | %.1f%% | %s%n",
-                    nombre.trim(), intentosFallidos, intentosTotales,
-                    porcentajeFallos(), evaluarEstado());
+                    nombreMostrar,
+                    intentosFallidos,
+                    intentosTotales,
+                    porcentajeFallos(),
+                    evaluarEstado());
         } else {
-            String nombreMostrar = nombre;
+            System.out.printf("%s | %d/%d | N/D | %s%n",
+                    nombreMostrar,
+                    intentosFallidos,
+                    intentosTotales,
+                    evaluarEstado());
+        }
+    }
+}
 
-            if (nombreMostrar == null || nombreMostrar.trim().isEmpty()) {
-                nombreMostrar = "SIN NOMBRE";
-            } else {
-                nombreMostrar = nombreMostrar.trim();
-            }
-/* 
-Respuestas a las preguntas del ejercicio:
-1. Dos objetos de una misma clase pueden tener valores diferentes
-   porque cada objeto tiene sus propios atributos.
+public class Main {
+    public static void main(String[] args) {
+        Scanner teclado = new Scanner(System.in);
 
-2. Con el Servidor b = a;, las dos variables hacen referencia al mismo
-   objeto. En cambio, con Servidor b = new Servidor(); se crea un
-   objeto nuevo e independiente.
+        // Se crea el primer objeto Servidor.
+        Servidor servidor1 = new Servidor();
 
-3. Es importante comprobar datosValidos() antes de calcular el
-   porcentaje para que pueda evitarse hacer divisiones con datos incorrectos
-   o con un total de intentos igual a cero.
-*/
+        System.out.println("DATOS DEL PRIMER SERVIDOR");
+
+        System.out.print("Nombre: ");
+        servidor1.nombre = teclado.nextLine();
+
+        System.out.print("Origen (interno/externo): ");
+        servidor1.origen = teclado.nextLine();
+
+        System.out.print("Critico (si/no): ");
+        servidor1.critico = teclado.nextLine();
+
+        System.out.print("Intentos totales: ");
+        servidor1.intentosTotales = teclado.nextInt();
+        teclado.nextLine();
+
+        System.out.print("Intentos fallidos: ");
+        servidor1.intentosFallidos = teclado.nextInt();
+        teclado.nextLine();
+
+        // Se crea un segundo objeto independiente.
+        Servidor servidor2 = new Servidor();
+
+        System.out.println("\nDATOS DEL SEGUNDO SERVIDOR");
+
+        System.out.print("Nombre: ");
+        servidor2.nombre = teclado.nextLine();
+
+        System.out.print("Origen (interno/externo): ");
+        servidor2.origen = teclado.nextLine();
+
+        System.out.print("Critico (si/no): ");
+        servidor2.critico = teclado.nextLine();
+
+        System.out.print("Intentos totales: ");
+        servidor2.intentosTotales = teclado.nextInt();
+        teclado.nextLine();
+
+        System.out.print("Intentos fallidos: ");
+        servidor2.intentosFallidos = teclado.nextInt();
+        teclado.nextLine();
+
+        // Se muestra el reporte de seguridad de ambos servidores.
+        System.out.println("\n========== REPORTE DE SEGURIDAD ==========");
+        servidor1.mostrarResumen
